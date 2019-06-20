@@ -1,7 +1,10 @@
 import { Item } from './item';
 
 class TodoApp {
-
+  /**
+   * Allows the creation and maintenance of a simple todo list
+   */   
+    
     public toDoList: Map<number, Item>;
     public curId: number;
 
@@ -96,7 +99,4 @@ class TodoApp {
         return this.toDoList.get(id);
     }
 }
-// Test comment for github purposes
-// Another test comment, this time after getting ssh figured out
-// A third test comment, for a third branch
 export { TodoApp };
