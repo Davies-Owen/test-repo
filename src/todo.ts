@@ -1,7 +1,10 @@
 import { Item } from './item';
 
 class TodoApp {
-
+  /**
+   * Allows the creation and maintenance of a simple todo list
+   */   
+    
     public toDoList: Map<number, Item>;
     public curId: number;
 
