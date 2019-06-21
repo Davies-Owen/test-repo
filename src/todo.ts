@@ -36,12 +36,13 @@ class TodoApp {
         this.toDoList.get(id).done = false;
         return true;
     }
-    public removeItem(id: number): boolean {
+    public removeItem(id: number): Item {
         if (!this.toDoList.has(id)) {
             throw new Error('No such item exists');
         }
+        const deleted = this.toDoList.get(id);
         this.toDoList.delete(id);
-        return true;
+        return deleted;
     }
 
     public listAllToDos(): Item[] {
