@@ -1,6 +1,4 @@
 import * as express from 'express';
-
-import { Item } from './src/item';
 import { TodoApp } from './src/todo';
 
 const todo = new TodoApp();
