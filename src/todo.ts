@@ -53,13 +53,13 @@ class TodoApp {
         return ids;
     }
 
-    public listCompletedToDos(): (string | number | Date | boolean)[][] {
+    public listCompletedToDos(): Array<string | number | Date | boolean>[] {
         if (!this.toDoList.size) {
             throw new Error('The todo list is empty');
         }
         const it = this.toDoList.values();
         const completed = [];
-        for (let i of Array.from(it)) {
+        for (const i of Array.from(it)) {
             if (i.done) {
                 completed.push([i.id, i.description, i.dueAt]);
             }
@@ -70,13 +70,13 @@ class TodoApp {
         return completed;
     }
 
-    public listUncompletedToDos(): (string | number | Date | boolean)[][] {
+    public listUncompletedToDos(): Array<string | number | Date | boolean>[] {
         if (!this.toDoList.size) {
             throw new Error('The todo list is empty');
         }
         const it = this.toDoList.values();
         const uncompleted = [];
-        for (let i of Array.from(it)) {
+        for (const i of Array.from(it)) {
             if (!i.done) {
                 uncompleted.push([i.id, i.description, i.dueAt]);
             }
