@@ -38,10 +38,10 @@ var TodoApp = /** @class */ (function () {
         return true;
     };
     TodoApp.prototype.listAllToDos = function () {
-        if (!this.toDoList.size) {
-            throw new Error('The todo list is empty');
-        }
-        var ids = Array.from(this.toDoList.values()).map(function (i) { return i.id; });
+        // if (!this.toDoList.size) {
+        //     throw new Error('The todo list is empty');
+        // }
+        var ids = Array.from(this.toDoList.values());
         return ids;
     };
     TodoApp.prototype.listCompletedToDos = function () {
@@ -51,9 +51,9 @@ var TodoApp = /** @class */ (function () {
         var it = this.toDoList.values();
         var completed = [];
         for (var _i = 0, _a = Array.from(it); _i < _a.length; _i++) {
-            var v = _a[_i];
-            if (v.done) {
-                completed.push(v.id);
+            var i = _a[_i];
+            if (i.done) {
+                completed.push([i.id, i.description, i.dueAt]);
             }
         }
         if (!completed.length) {
@@ -68,9 +68,9 @@ var TodoApp = /** @class */ (function () {
         var it = this.toDoList.values();
         var uncompleted = [];
         for (var _i = 0, _a = Array.from(it); _i < _a.length; _i++) {
-            var v = _a[_i];
-            if (!v.done) {
-                uncompleted.push(v.id);
+            var i = _a[_i];
+            if (!i.done) {
+                uncompleted.push([i.id, i.description, i.dueAt]);
             }
         }
         if (!uncompleted.length) {
