@@ -4,7 +4,8 @@
   "description": "",
   "main": "todo.ts",
   "scripts": {
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "start": "ts-node server.ts"
   },
   "author": "",
   "license": "ISC",

@@ -1,10 +1,9 @@
 import { Item } from './item';
-
 class TodoApp {
-  /**
-   * Allows the creation and maintenance of a simple todo list
-   */   
-    
+    /**
+     * Allows the creation and maintenance of a simple todo list
+     */
+
     public toDoList: Map<number, Item>;
     public curId: number;
 
@@ -45,23 +44,23 @@ class TodoApp {
         return true;
     }
 
-    public listAllToDos(): number[] {
-        if (!this.toDoList.size) {
-            throw new Error('The todo list is empty');
-        }
-        const ids = Array.from(this.toDoList.values()).map((i) => i.id);
+    public listAllToDos(): Item[] {
+        // if (!this.toDoList.size) {
+        //     throw new Error('The todo list is empty');
+        // }
+        const ids = Array.from(this.toDoList.values());
         return ids;
     }
 
-    public listCompletedToDos(): number[] {
+    public listCompletedToDos(): (string | number | Date | boolean)[][] {
         if (!this.toDoList.size) {
             throw new Error('The todo list is empty');
         }
         const it = this.toDoList.values();
         const completed = [];
-        for (const v of Array.from(it)) {
-            if (v.done) {
-                completed.push(v.id);
+        for (let i of Array.from(it)) {
+            if (i.done) {
+                completed.push([i.id, i.description, i.dueAt]);
             }
         }
         if (!completed.length) {
@@ -70,15 +69,15 @@ class TodoApp {
         return completed;
     }
 
-    public listUncompletedToDos(): number[] {
+    public listUncompletedToDos(): (string | number | Date | boolean)[][] {
         if (!this.toDoList.size) {
             throw new Error('The todo list is empty');
         }
         const it = this.toDoList.values();
         const uncompleted = [];
-        for (const v of Array.from(it)) {
-            if (!v.done) {
-                uncompleted.push(v.id);
+        for (let i of Array.from(it)) {
+            if (!i.done) {
+                uncompleted.push([i.id, i.description, i.dueAt]);
             }
         }
         if (!uncompleted.length) {
