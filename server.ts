@@ -9,45 +9,44 @@ serv.use(express.json());
 const port = 3000;
 
 serv.get('/', function (req, res) {
-    res.send(todo.listAllToDos());
+    res.json(todo.listAllToDos());
 });
 
 serv.put('/', function (req, res) {
     const data = req.body;
     try {
         todo.addItem(data.description, data.dueAt);
-        res.sendStatus(200);
+        res.status(200).end();
     } catch (e) {
-        if (e.message = 'The date you entered is invalid') {
-            res.status(400).send('The date you entered is invalid');
+        if (e.message === 'The date you entered is invalid') {
+            res.status(400).json({ "error" : "The date you entered is invalid" });
         } else {
             throw e;
         }
     }
 });
 
-serv.post(/^\/[0-9]+\/done/, function (req, res) {
-    const id: string = req.path.split('/')[1];
+serv.post('/:id/done', function (req, res) {
+    const id: string = req.params.id;
     try {
         todo.checkItem(parseInt(id));
-        res.sendStatus(200);
+        res.status(200).end();
     } catch (e) {
-        if (e.message = 'No such item exists') {
-            res.send(`Item ${id} does not exist`);
-            res.status(404).send(`Item ${id} does not exist`);
+        if (e.message === 'No such item exists') {
+            res.status(404).json({ 'error': 'Item could not be found' });
         } else {
             throw e;
         }
     }
 });
 
-serv.delete(/^\/[0-9]+/, function (req, res) {
-    const id: string = req.path.split('/')[1];
+serv.delete('/:id', function (req, res) {
+    const id: string = req.params.id;
     try {
         res.send(todo.removeItem(parseInt(id)));
     } catch (e) {
-        if (e.message = 'No such item exists') {
-            res.status(404).send(`Item ${id} does not exist`);
+        if (e.message === 'No such item exists') {
+            res.status(404).json({ 'error': 'Item could not be found' });
         } else {
             throw e;
         }
