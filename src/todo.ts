@@ -13,14 +13,14 @@ class TodoApp {
     }
 
     // Had to generate the item ID here so two todoApps could have separate id lists
-    public addItem(description: string, dueAt: string): number {
+    public addItem(description: string, dueAt: string): Item {
         const date = new Date(dueAt);
         if (date.toString() === 'Invalid Date') {
             throw new Error('The date you entered is invalid');
         }
         const item = new Item(description, date, this.curId++);
         this.toDoList.set(item.id, item);
-        return item.id;
+        return item;
     }
     public checkItem(id: number): boolean {
         if (!this.toDoList.has(id)) {
@@ -46,14 +46,11 @@ class TodoApp {
     }
 
     public listAllToDos(): Item[] {
-        // if (!this.toDoList.size) {
-        //     throw new Error('The todo list is empty');
-        // }
         const ids = Array.from(this.toDoList.values());
         return ids;
     }
 
-    public listCompletedToDos(): Array<string | number | Date | boolean>[] {
+    public listCompletedToDos(): Array<Array<string | number | Date | boolean>> {
         if (!this.toDoList.size) {
             throw new Error('The todo list is empty');
         }
@@ -70,7 +67,7 @@ class TodoApp {
         return completed;
     }
 
-    public listUncompletedToDos(): Array<string | number | Date | boolean>[] {
+    public listUncompletedToDos(): Array<Array<string | number | Date | boolean>> {
         if (!this.toDoList.size) {
             throw new Error('The todo list is empty');
         }
