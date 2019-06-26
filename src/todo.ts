@@ -1,18 +1,16 @@
 import { Item } from './item';
-class TodoApp {
     /**
      * Allows the creation and maintenance of a simple todo list
      */
-
-    public toDoList: Map<number, Item>;
-    public curId: number;
+class TodoApp {
+    private toDoList: Map<number, Item>;
+    private curId: number;
 
     constructor() {
         this.curId = 1;
         this.toDoList = new Map<number, Item>();
     }
 
-    // Had to generate the item ID here so two todoApps could have separate id lists
     public addItem(description: string, dueAt: string): Item {
         const date = new Date(dueAt);
         if (date.toString() === 'Invalid Date') {
@@ -22,24 +20,19 @@ class TodoApp {
         this.toDoList.set(item.id, item);
         return item;
     }
-    public checkItem(id: number): boolean {
-        if (!this.toDoList.has(id)) {
-            throw new Error('No such item exists');
-        }
-        this.toDoList.get(id).done = true;
-        return true;
+    public checkItem(id: number) {
+        this.validateItem(id);
+        this.toDoList.get(id).done = new Date();
     }
-    public uncheckItem(id: number): boolean {
-        if (!this.toDoList.has(id)) {
-            throw new Error('No such item exists');
-        }
-        this.toDoList.get(id).done = false;
-        return true;
+
+    public uncheckItem(id: number) {
+        this.validateItem(id);
+        this.toDoList.get(id).done = undefined;
     }
+
     public removeItem(id: number): Item {
-        if (!this.toDoList.has(id)) {
-            throw new Error('No such item exists');
-        }
+        this.validateItem(id);
+
         const deleted = this.toDoList.get(id);
         this.toDoList.delete(id);
         return deleted;
@@ -50,50 +43,49 @@ class TodoApp {
         return ids;
     }
 
-    public listCompletedToDos(): Array<Array<string | number | Date | boolean>> {
-        if (!this.toDoList.size) {
-            throw new Error('The todo list is empty');
-        }
+    public listCompletedToDos(): Item[] {
         const it = this.toDoList.values();
         const completed = [];
         for (const i of Array.from(it)) {
             if (i.done) {
-                completed.push([i.id, i.description, i.dueAt]);
+                completed.push(i);
             }
-        }
-        if (!completed.length) {
-            throw new Error('There are no completed items');
         }
         return completed;
     }
 
-    public listUncompletedToDos(): Array<Array<string | number | Date | boolean>> {
-        if (!this.toDoList.size) {
-            throw new Error('The todo list is empty');
-        }
+    public listUncompletedToDos(): Item[] {
         const it = this.toDoList.values();
         const uncompleted = [];
         for (const i of Array.from(it)) {
             if (!i.done) {
-                uncompleted.push([i.id, i.description, i.dueAt]);
+                uncompleted.push(i);
             }
-        }
-        if (!uncompleted.length) {
-            throw new Error('There are no uncompleted items');
         }
         return uncompleted;
     }
 
-    public clearAllToDos(): boolean {
+    public clearAllToDos() {
         this.toDoList.clear();
-        return true;
     }
 
-    public returnItem(id: number): Item {   // debugging function
-        if (!this.toDoList.has(id)) {
-            throw new Error('No such item exists');
-        }
+    /**
+     * A debugging function
+     * 
+     * @param id - An id
+     * @returns the item with id `id` 
+     */
+    public returnItem(id: number): Item {
+        this.validateItem(id);
         return this.toDoList.get(id);
+    }
+
+    private validateItem(id: number){
+        if (!this.toDoList.has(id)) {
+            let err: any = new Error('No such item exists');
+            err.statusCode = 404;
+            throw err;
+        }
     }
 }
 export { TodoApp };
